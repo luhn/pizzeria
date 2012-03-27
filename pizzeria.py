@@ -48,7 +48,8 @@ if __name__=='__main__':
 
     print 'Pizzeria'
     print '=========='
-    print 'Find the best pizza for the best price by comparing price / sq. inch.'
+    print 'Find the best pizza for the best price by comparing price / sq. '+\
+            'inch.'
 
     add_pizza(pizzas)
 
