@@ -1,4 +1,6 @@
 import math
+import pickle
+import os.path
 
 
 def add_pizza(pizzas):
@@ -20,7 +22,20 @@ def print_results(pizzas):
     print '========================================='
     for pizza in pizzas:
         pizza.print_row()
+        
+def save_data(pizzas):
+    """Pickles the pizzas list, and stores it in file"""
+    pizzas_file = 'pizzerias.dat'
+    file_object = open(pizzas_file, 'w')
+    pickle.dump(pizzas, file_object)
+    
 
+def read_data():
+    """Reads in pickled data """
+    pizzas_file = 'pizzerias.dat'
+    file_object = open(pizzas_file, 'r')
+    return pickle.load(file_object)
+    
 class Pizza(object):
     def __init__(self, dm, price, notes):
         """Create a yummy pizza"""
@@ -42,8 +57,7 @@ class Pizza(object):
                 )
 
 
-
-if __name__=='__main__':
+def main():
     pizzas = []
 
     print 'Pizzeria'
@@ -51,7 +65,12 @@ if __name__=='__main__':
     print 'Find the best pizza for the best price by comparing price / sq. '+\
             'inch.'
 
-    add_pizza(pizzas)
+    if os.path.exists('pizzerias.dat'):
+        temp_pizzas = read_data();
+        for pizza in temp_pizzas:
+            pizzas.append(pizza)
+    else:
+        add_pizza(pizzas)
 
     while True:
         print ''
@@ -59,6 +78,7 @@ if __name__=='__main__':
         print 'What would you like to do?'
         print 'a = add a pizza'
         print 'p = print results'
+        print 's = save data'
         print 'q = quit'
         choice = raw_input('Choice: ')
         if choice=='q':
@@ -67,4 +87,8 @@ if __name__=='__main__':
             add_pizza(pizzas)
         elif choice=='p':
             print_results(pizzas)
+        elif choice=='s':
+            save_data(pizzas)
 
+if __name__=='__main__':
+    main()
