@@ -42,8 +42,7 @@ class Pizza(object):
                 )
 
 
-
-if __name__=='__main__':
+def main():
     pizzas = []
 
     print 'Pizzeria'
@@ -67,3 +66,5 @@ if __name__=='__main__':
         elif choice=='p':
             print_results(pizzas)
 
+if __name__=='__main__':
+    main()
