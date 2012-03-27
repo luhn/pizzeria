@@ -22,20 +22,26 @@ def print_results(pizzas):
     print '========================================='
     for pizza in pizzas:
         pizza.print_row()
-        
+
 def save_data(pizzas):
     """Pickles the pizzas list, and stores it in file"""
-    pizzas_file = 'pizzerias.dat'
-    file_object = open(pizzas_file, 'w')
-    pickle.dump(pizzas, file_object)
-    
+    fn = raw_input('Enter filename: ')
+    with open(fn, 'w') as f:
+        pickle.dump(pizzas, f)
+        print 'Data saved to '+fn
 
-def read_data():
+def read_data(pizzas):
     """Reads in pickled data """
-    pizzas_file = 'pizzerias.dat'
-    file_object = open(pizzas_file, 'r')
-    return pickle.load(file_object)
-    
+    fn = raw_input('Enter filename: ')
+    if not os.path.exists(fn):
+        print 'Error: No such file.'
+        return
+    cuke = []
+    with open(fn, 'r') as f:
+        cuke = pickle.load(f)
+        print 'Pizzas loaded.'
+    pizzas.extend(cuke)
+
 class Pizza(object):
     def __init__(self, dm, price, notes):
         """Create a yummy pizza"""
@@ -65,13 +71,6 @@ def main():
     print 'Find the best pizza for the best price by comparing price / sq. '+\
             'inch.'
 
-    if os.path.exists('pizzerias.dat'):
-        temp_pizzas = read_data();
-        for pizza in temp_pizzas:
-            pizzas.append(pizza)
-    else:
-        add_pizza(pizzas)
-
     while True:
         print ''
         print ''
@@ -79,6 +78,7 @@ def main():
         print 'a = add a pizza'
         print 'p = print results'
         print 's = save data'
+        print 'r = read data'
         print 'q = quit'
         choice = raw_input('Choice: ')
         if choice=='q':
@@ -89,6 +89,9 @@ def main():
             print_results(pizzas)
         elif choice=='s':
             save_data(pizzas)
+        elif choice=='r':
+            read_data(pizzas)
+            print_results(pizzas)
 
 if __name__=='__main__':
     main()
